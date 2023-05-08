@@ -60,6 +60,13 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# default will be local storage until ready
+# for production release when only prod will
+# use S3 (though others could be used)
+config :my_app, :storage_backend,
+  system_env: "STORAGE_BACKEND",
+  default: "local"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

@@ -38,3 +38,4 @@ npm-debug.log
 _build
 deps
 data
+priv/static/uploads
