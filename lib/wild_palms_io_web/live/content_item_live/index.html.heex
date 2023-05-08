@@ -1,0 +1,43 @@
+<.header>
+  Listing Content items
+  <:actions>
+    <.link patch={~p"/content_items/new"}>
+      <.button>New Content item</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="content_items"
+  rows={@streams.content_items}
+  row_click={fn {_id, content_item} -> JS.navigate(~p"/content_items/#{content_item}") end}
+>
+  <:col :let={{_id, content_item}} label="Title"><%= content_item.title %></:col>
+  <:col :let={{_id, content_item}} label="Content"><%= content_item.content %></:col>
+  <:col :let={{_id, content_item}} label="Content type"><%= content_item.content_type %></:col>
+  <:action :let={{_id, content_item}}>
+    <div class="sr-only">
+      <.link navigate={~p"/content_items/#{content_item}"}>Show</.link>
+    </div>
+    <.link patch={~p"/content_items/#{content_item}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, content_item}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: content_item.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="content_item-modal" show on_cancel={JS.patch(~p"/content_items")}>
+  <.live_component
+    module={WildPalmsIoWeb.ContentItemLive.FormComponent}
+    id={@content_item.id || :new}
+    title={@page_title}
+    action={@live_action}
+    content_item={@content_item}
+    patch={~p"/content_items"}
+  />
+</.modal>

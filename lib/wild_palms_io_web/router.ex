@@ -18,6 +18,13 @@ defmodule WildPalmsIoWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/content_items", ContentItemLive.Index, :index
+    live "/content_items/new", ContentItemLive.Index, :new
+    live "/content_items/:id/edit", ContentItemLive.Index, :edit
+
+    live "/content_items/:id", ContentItemLive.Show, :show
+    live "/content_items/:id/show/edit", ContentItemLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

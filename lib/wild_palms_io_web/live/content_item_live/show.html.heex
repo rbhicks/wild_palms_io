@@ -1,0 +1,28 @@
+<.header>
+  Content item <%= @content_item.id %>
+  <:subtitle>This is a content_item record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/content_items/#{@content_item}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit content_item</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title"><%= @content_item.title %></:item>
+  <:item title="Content"><%= @content_item.content %></:item>
+  <:item title="Content type"><%= @content_item.content_type %></:item>
+</.list>
+
+<.back navigate={~p"/content_items"}>Back to content_items</.back>
+
+<.modal :if={@live_action == :edit} id="content_item-modal" show on_cancel={JS.patch(~p"/content_items/#{@content_item}")}>
+  <.live_component
+    module={WildPalmsIoWeb.ContentItemLive.FormComponent}
+    id={@content_item.id}
+    title={@page_title}
+    action={@live_action}
+    content_item={@content_item}
+    patch={~p"/content_items/#{@content_item}"}
+  />
+</.modal>
